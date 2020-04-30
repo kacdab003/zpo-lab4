@@ -35,7 +35,7 @@ class Question {
   }
 
   static removeQuestionByID(id) {
-    let questions = Question.getAllQuestions();
+    const questions = Question.getAllQuestions();
     console.log(id);
     const filteredQuestions = questions.filter(
       (question) => question.id !== id
