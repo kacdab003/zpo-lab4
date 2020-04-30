@@ -9,8 +9,6 @@ const QUESTIONS_SRC_PATH = path.join(
   'data',
   'questions.json'
 );
-console.log(QUESTIONS_SRC_PATH);
-
 class Question {
   constructor(question, answers, correctIndex) {
     this.id = uuid();
@@ -28,15 +26,12 @@ class Question {
 
   static saveQuestion(question) {
     const questions = Question.getAllQuestions();
-    console.log(questions);
-
     questions.push(question);
     fs.writeFileSync(QUESTIONS_SRC_PATH, JSON.stringify(questions));
   }
 
   static removeQuestionByID(id) {
     const questions = Question.getAllQuestions();
-    console.log(id);
     const filteredQuestions = questions.filter(
       (question) => question.id !== id
     );
