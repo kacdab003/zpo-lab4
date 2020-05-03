@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Quiz app</title>
-  </head>
-  <body>
-    <input type="text" name="name" />
-    <input type="text" name="name" />
-    <button class="btn">Wyślij odpowiedź</button>
-  </body>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="./js/app.js"></script>
+</head>
+<body>
+<div class="question">
+    <p class="question-content">Czy tak</p>
+    <ul>
+        <li class="answer1">Odpowiedź 1</li>
+        <li class="answer1">Odpowiedź 2</li>
+        <li class="answer1">Odpowiedź 3</li
+    </ul>
+    <select class="answers">
+        <option value>a</option>
+        <option value>b</option>
+        <option value>c</option>
+    </select>
+
+</div>
+<input type="text" name="answer"/>
+<button class="btn">Wyślij odpowiedź</button>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="./js/app.js"></script>
 </html>
