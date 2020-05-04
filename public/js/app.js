@@ -24,7 +24,6 @@ socket.on('question', (data) => {
         answerListItems[i].textContent = data.answers[i];
         answersOptions[i].value = data.answers[i];
         answersOptions[i].textContent = data.answers[i];
-
     }
 
 

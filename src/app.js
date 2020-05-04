@@ -21,11 +21,12 @@ io.on('connection', (socket) => {
     socket.on('introduce', (data) => {
         const player = new Player(data.name);
         players.push(player);
+        const playerIndex = players.length - 1;
         console.log(players);
-        socket.name = data.name;
+        socket.playerIndex = playerIndex;
         if (players.length > 1) {
             console.log('Game starts')
-            emitQuestions(io, socket, questionQueue).then(data => console.log('data'))
+            emitQuestions(io, socket, questionQueue).then(data => console.log(players))
         }
     });
 
@@ -48,10 +49,26 @@ const sleep = (ms) => {
 }
 const emitQuestions = async (io, socket, questions) => {
     for (let i = 0; i < questions.length; i++) {
-        io.emit('question', {question: questions[i].question, answers: questions[i].answers});
+        io.emit('question', {
+            question: questions[i].question,
+            answers: questions[i].answers,
+            answer: questions[i].answers[questions[i].correctIndex]
+        });
         socket.on('answer', (data) => {
-            console.log(data.username, ' answered ', data.answer)
-        })
+            console.log(socket.playerIndex)
+                if (data.answer === questions[i].answers[questions[i].correctIndex] && !questions[i].isLocked) {
+                    players[socket.playerIndex].scorePoint();
+                    questions[i].isLocked = true;
+                    console.log('Question passed answer is good ', players[socket.playerIndex].anme + ' scores a point', players)
+                } else {
+                    if (!questions[i].isLocked) {
+                        players[socket.playerIndex].substractPoint();
+                        console.log('Question passed answer is bad ', players[socket.playerIndex].name + ' loses a point', players)
+                    }
+
+                }
+            }
+        )
         await sleep(10000);
 
 
