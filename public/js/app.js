@@ -1,34 +1,42 @@
 const name = prompt('Give me your name, so I could sign you up for the quiz');
 const socket = io();
-let answer = null;
+socket.emit('introduce', name);
+const counterParagraph = document.querySelector('.counter');
+socket.on('welcome', (data) => {
+    document.querySelector('.question-content').textContent = data.question
+    counterParagraph.textContent = data.counter
+})
+socket.on('question', (data => {
+    document.querySelector('.question-content').textContent = data.question
+    counterParagraph.textContent = data.counter
+}))
+socket.on('game over', results => {
+    let html = '';
+    results.forEach(player => {
 
-const answerInput = document.querySelector('.answers');
-answerInput.addEventListener('change', (e) => {
-    answer = e.target.value;
-    console.log(answer);
+        html += `<div>
+<p>${player.name}</p>
+<p>${player.score}</p>
+</div>`
+        document.querySelector('.btn').disabled = true;
+
+    })
+    counterParagraph.textContent = results.counter;
+    document.querySelector('p').innerHTML = html
 })
-socket.on('welcome', (message) => {
-    console.log(message)
-})
-socket.emit('introduce', {name});
-socket.on('question', (data) => {
-    console.log(data)
-    answer = null;
-    answerInput.value = null;
-    const questionContent = document.querySelector('.question-content');
-    const answers = document.querySelector('.answers');
-    const answersOptions = document.querySelectorAll('.answers option')
-    const answerListItems = document.querySelectorAll('ul li');
-    questionContent.textContent = data.question;
-    for (let i = 0; i < data.answers.length; i++) {
-        answerListItems[i].textContent = data.answers[i];
-        answersOptions[i].value = data.answers[i];
-        answersOptions[i].textContent = data.answers[i];
+
+const emitAnswer = () => {
+    const input = document.querySelector('input');
+    const answer = input.value;
+    socket.emit('answer', {name, answer})
+    input.value = '';
+}
+
+const sendBtn = document.querySelector('.btn');
+document.addEventListener('keypress', (event) => {
+    if (event.keyCode === 13) { //enter click
+        emitAnswer();
     }
 
-
-})
-document.querySelector('button').addEventListener('click', () => {
-    console.log(answer, ' sent')
-    socket.emit('answer', {username: name, answer: answer});
-})
+});
+sendBtn.addEventListener('click', emitAnswer)

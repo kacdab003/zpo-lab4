@@ -13,9 +13,7 @@ class Player {
         this.score += 1;
     }
 
-    substractPoint() {
-        this.score -= 1;
-    }
+
 }
 
 module.exports = Player;
