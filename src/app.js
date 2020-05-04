@@ -11,7 +11,6 @@ const Player = require('./models/Player')
 
 const players = [];
 const questionQueue = Question.getAllQuestions();
-console.log(questionQueue)
 let currQuestion = questionQueue.pop();
 let counter = questionQueue.length + 1;
 app.use(express.static('public'));
