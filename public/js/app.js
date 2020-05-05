@@ -19,10 +19,13 @@ socket.on('game over', results => {
 <p>${player.score}</p>
 </div>`
         document.querySelector('.btn').disabled = true;
+        // document.querySelector('.input').disabled = true;
+        document.querySelector('p').innerHTML = html
+
 
     })
     counterParagraph.textContent = results.counter;
-    document.querySelector('p').innerHTML = html
+    console.log(results.counter);
 })
 
 const emitAnswer = () => {

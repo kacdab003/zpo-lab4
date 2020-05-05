@@ -17,24 +17,30 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use('/api', questionRouter);
 io.on('connection', (socket) => {
+
     socket.emit('welcome', {question: currQuestion.question, counter});
     socket.on('introduce', (name) => {
         const player = new Player(name);
         player.id = socket.id;
         socket.name = name;
         players.push(player);
+        console.log(socket.name, ' joined the game!')
     })
+
     socket.on('answer', ({name, answer}) => {
         const isCorrect = currQuestion.correctAnswer === answer;
         if (isCorrect) {
             if (questionQueue.length === 0) {
-                return io.sockets.emit('game over', players,counter);
+                counter -= 1;
+                const playerAnswered = players.find(player => player.name === name);
+                playerAnswered.scorePoint();
+                return io.sockets.emit('game over', players, counter);
             } else {
                 const playerAnswered = players.find(player => player.name === name);
                 playerAnswered.scorePoint();
                 console.log(playerAnswered.name, 'scored a point!')
                 currQuestion = questionQueue.pop();
-                counter-=1;
+                counter -= 1;
                 io.sockets.emit('question', {question: currQuestion.question, counter});
 
             }

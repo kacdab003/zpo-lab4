@@ -2,15 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="./css/style.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Quiz app</title>
 </head>
 <body>
-<p class="question-content"></p>
-<input type="text"/>
-<p class="counter"></p>
-<button class="btn">Wyślij odpowiedź</button>
-<p class="results"></p>
+<div class="container">
+    <p class="question-content"></p>
+    <label for="answer">Twoja odpowiedź:</label>
+    <input type="text" id="answer"/>
+    <div class="wrapper">
+        <label>Pozostało pytań:</label>
+        <p class="counter bold"></p>
+    </div>
+
+    <button class="btn">Wyślij odpowiedź</button>
+    <p class="results"></p>
+</div>
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script src="./js/app.js"></script>
